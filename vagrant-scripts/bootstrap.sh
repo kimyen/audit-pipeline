@@ -17,6 +17,7 @@ apt-get --quiet --yes --target-release wheezy-backports install openjdk-7-jdk
 
 # MySQL
 apt-get --quiet --yes --target-release wheezy-backports install mysql-server
+mysql -u root mysql < /vagrant/vagrant-scripts/db-bootstrap.sql
 
 apt-get autoclean
 apt-get autoremove
