@@ -1,0 +1,8 @@
+language: java
+jdk: openjdk7
+env:
+  global:
+  - secure: dQ1iJWFVPeSm/4uJyiLQTxkeq38+l8EJPQLFrHHVasysUpzShbQ5ZCX7hsh2oyy0rVTXOTVwg7mYhY6JF1nQlP5jHkeTVdx9WAkwKBdgUx8vOqXfuNSt/kvlKCa/T+Jx7J5FH9BPOGX298KHlbmcgC8zOXtFJhnYVu6KfVIicbI=
+  - secure: ZKfGgjDiCEeAYsNaAUbtUj4VzI/Y2nUN3iYClIkXOABX418ffIKEifuMy3BZjh/sOvfRX39C/crG9su/6v0ChU0rhdGLYhb3QTY3LUxYpA++80kO40PjOZlDLLi2bhdpvJpk33S/AaoitJcZl3DUk3qlSYv2ixvdl+b3lgP6tW8=
+after_success:
+- "./gradlew artifactoryPublish"
