@@ -1,0 +1,99 @@
+group = 'org.sagebionetworks'
+ext.name = 'audit-pipeline'
+version = '0.0.1.' + (new Date()).format(
+        'yyyyMMddHHmmss', TimeZone.getTimeZone("UTC"))
+
+/*** Java ***/
+
+apply plugin: 'java'
+
+jar {
+    group = project.group
+    baseName = project.ext.name
+    version = project.version
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.11'
+}
+
+/*** Eclipse ***/
+
+apply plugin: 'eclipse'
+
+/*** Code Quality Tools ***/
+
+apply plugin: 'findbugs'
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+apply plugin: 'jdepend'
+tasks.withType(JDepend) {
+    reports {
+        xml.enabled = false
+        text.enabled = true
+    }
+}
+
+apply plugin: 'pmd'
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+apply plugin: 'jacoco'
+
+/*** Artifactory ***/
+
+buildscript {
+    repositories {
+         jcenter()
+    }
+    dependencies {
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1'
+    }
+}
+
+apply plugin: 'com.jfrog.artifactory'
+artifactory {
+    contextUrl = 'http://sagebionetworks.artifactoryonline.com/sagebionetworks'
+    publish {
+        contextUrl = 'http://sagebionetworks.artifactoryonline.com/sagebionetworks'
+        repository {
+            repoKey = 'libs-releases-local'
+            username = "${System.env.ARTI_USR}"
+            password = "${System.env.ARTI_PWD}"
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+/*** Maven Publishing ***/
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+/*** Wrapper ***/
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
+}
