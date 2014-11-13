@@ -5,3 +5,11 @@ build/
 gradle-app.setting
 
 .vagrant/
+/bin/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+logs/
