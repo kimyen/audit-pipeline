@@ -1,0 +1,4 @@
+CREATE USER 'audit'@'localhost' IDENTIFIED BY 'audit';
+GRANT ALL PRIVILEGES ON * . * TO 'audit'@'localhost';
+FLUSH PRIVILEGES;
+CREATE DATABASE IF NOT EXISTS audit;
