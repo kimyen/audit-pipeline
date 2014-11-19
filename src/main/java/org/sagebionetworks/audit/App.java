@@ -5,10 +5,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,13 +29,19 @@ public class App {
     private static NamedParameterJdbcTemplate dbTemplate;
 
     public static void main(String[] args) {
+        final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/database.xml");
+        context.registerShutdownHook();
+
         final Logger logger = org.slf4j.LoggerFactory.getLogger(App.class);
         int rowAffected = 0;
 
         /* Step 1: Add new column */
         try {
             rowAffected = dbTemplate.update(ADD_COLUMN, new HashMap<String, Object>());
-        } catch (DataAccessException e) {
+        /*} catch (DataAccessException e) {
+            logger.error("Failed to add column.", e);
+        }*/
+        } catch (Throwable e){
             logger.error("Failed to add column.", e);
         }
 
@@ -43,8 +52,10 @@ public class App {
         if (idList != null) {
             for (Long id : idList) {
 
+                Map<String, Long> parameter = new HashMap<>();
+                parameter.put("id", id);
                 /* Step 3: Get the Blob */
-                byte[] blob = dbTemplate.query(GET_A_BLOB, new ResultSetExtractor<byte[]>() {
+                byte[] blob = dbTemplate.query(GET_A_BLOB, parameter, new ResultSetExtractor<byte[]>() {
                     @Override
                     public byte[] extractData(ResultSet rs) throws SQLException, DataAccessException {
                         if (rs.next()) {
@@ -64,6 +75,7 @@ public class App {
                 }
             }
         }
+        context.close();
     }
 
 }
