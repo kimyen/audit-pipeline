@@ -32,7 +32,8 @@ public class Worker {
 
     public void doWork(NamedParameterJdbcTemplate dbTemplate) {
 
-        int rowAffected = 0;
+        @SuppressWarnings("unused")
+        int rowAffected = 0; // for debug
 
         /* Step 1: Add new column */
         try {
