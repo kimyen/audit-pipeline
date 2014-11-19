@@ -39,6 +39,14 @@ dependencies {
 
 apply plugin: 'eclipse'
 
+/*** Command-line Application ***/
+
+apply plugin: 'application'
+mainClassName = "org.sagebionetworks.audit.App"
+run {
+    args = []
+}
+
 /*** Code Quality Tools ***/
 
 apply plugin: 'findbugs'
