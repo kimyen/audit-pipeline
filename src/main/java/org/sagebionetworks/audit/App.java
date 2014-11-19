@@ -3,6 +3,7 @@ package org.sagebionetworks.audit;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class App {
     private static NamedParameterJdbcTemplate dbTemplate;
 
     public static void main(String[] args) {
+        assert(dbTemplate != null);
+
         final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/database.xml");
         context.registerShutdownHook();
 
@@ -48,7 +51,12 @@ public class App {
         assert(rowAffected != 0);
 
         /* Step 2: Get all ids */
-        List<Long> idList = dbTemplate.queryForList(GET_ALL_ID, new HashMap<String, Object>(), Long.class);
+        List<Long> idList = new ArrayList<Long>();
+        try {
+             dbTemplate.queryForList(GET_ALL_ID, new HashMap<String, Object>(), Long.class);
+        } catch (Throwable e){
+            logger.error("Failed to get list of IDs.", e);
+        }
         if (idList != null) {
             for (Long id : idList) {
 
