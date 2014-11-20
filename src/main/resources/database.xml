@@ -21,7 +21,5 @@
     <bean id="dbTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
             c:dataSource-ref="dbDataSource" />
 
-    <bean id="worker" class="org.sagebionetworks.audit.Worker"
-            c:dbTemplate-ref="dbTemplate" />
 
 </beans>

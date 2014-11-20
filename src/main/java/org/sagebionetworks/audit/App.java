@@ -9,6 +9,13 @@ public class App {
 
         final ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/database.xml");
         context.registerShutdownHook();
+
+        ConcreteType concreteType = context.getBean(ConcreteType.class);
+        concreteType.doWork();
+
+        CertifiedUser certifiedUser = context.getBean(CertifiedUser.class);
+        certifiedUser.doWork();
+
         context.close();
     }
 
