@@ -67,6 +67,14 @@ public class AuditConfig implements Config {
         return config.get("db.password");
     }
 
+    public String getSynapseUser() {
+        return config.get("synapse.user");
+    }
+
+    public String getSynapsePassword() {
+        return config.get("synapse.password");
+    }
+
     private final Logger logger = LoggerFactory.getLogger(AuditConfig.class);
     private final Config config;
 }

@@ -10,12 +10,19 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Component;
 
-public class Worker {
+@Component("concreteType")
+public class ConcreteType {
+
+    @Resource
+    private NamedParameterJdbcTemplate dbTemplate;
 
     //private static String TABLE_NAME = "TEST"; // for testing
     private static String TABLE_NAME = "ACCESS_REQUIREMENT";
@@ -24,13 +31,9 @@ public class Worker {
     private static String GET_A_BLOB = "SELECT SERIALIZED_ENTITY FROM " + TABLE_NAME + " WHERE ID=:id;";
     private static String UPDATE = "UPDATE " + TABLE_NAME + " SET CONCRETE_TYPE=:concreteType WHERE ID=:id;";
 
-    final Logger logger = org.slf4j.LoggerFactory.getLogger(Worker.class);
+    final Logger logger = org.slf4j.LoggerFactory.getLogger(ConcreteType.class);
 
-    public Worker(NamedParameterJdbcTemplate dbTemplate) {
-        doWork(dbTemplate);
-    }
-
-    public void doWork(NamedParameterJdbcTemplate dbTemplate) {
+    public void doWork() {
 
         @SuppressWarnings("unused")
         int rowAffected = 0; // for debug
