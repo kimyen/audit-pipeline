@@ -282,7 +282,7 @@ public class SynapseClient {
             // Get as JSON node
             inputStream = entity.getContent();
             inputStreamReader = new InputStreamReader(inputStream, encodingType);
-            JsonNode root = (new ObjectMapper()).readValue(inputStreamReader, JsonNode.class);
+            JsonNode root = new ObjectMapper().readValue(inputStreamReader, JsonNode.class);
             return root;
         } catch (IllegalStateException e) {
             throw new RuntimeException(e);
